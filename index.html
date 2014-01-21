@@ -1,0 +1,249 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>My Page</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	<script src="js/libs/jquery-1.10.2.js"></script>
+	<script src="js/libs/jquery.mobile-1.3.2.js"></script>
+</head> 
+<body> 
+
+<div data-role="page" id="landing">
+
+	<div data-role="header">
+		<h1>Allergapp</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+
+        <fieldset class="ui-grid-a">
+        <div class="ui-block-a">
+            <a data-role ="button" data-icon="home" href="#account">Account</a>
+        </div>
+        <div class="ui-block-b">
+            <a data-role="button" data-icon="search" id="scan" href="#">Scan</a>
+        </div>
+        </fieldset> 
+
+        <div>
+            <img src="img/food1.jpg"></img>
+        </div>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="account">
+    
+    <div data-role="header" data-add-back-btn="true">
+        <a data-role="button" data-icon="back" data-rel="back" href="#">Terug</a>
+        <h2>Account</h2>
+    </div><!-- /header -->
+
+    <div data-role="content">
+        <a href="#profile_create" class="btn-grp" data-icon="plus" data-role="button">Nieuw profiel</a>
+        <a href="#profile_edit" class="btn-grp" data-icon="gear" data-role="button">Wijzig profiel</a>
+        <a href="#profile_delete" class="btn-grp" data-icon="delete" data-role="button">Verwijder profiel</a>
+    </div>
+</div><!-- /page -->
+
+<div data-role="page" id="profile_create">
+
+    <div data-role="header" data-add-back-btn="true">
+        <a data-role="button" data-icon="back" data-rel="back" href="#">Terug</a>
+        <h2>Nieuw profiel</h2>
+    </div>
+
+    <div data-role="content">
+        <form action="profile_create.php" method="post">
+            <label for="name">Naam:</label>
+            <input type="text" name="name" id="profile_name"></input>
+            
+            <label for="age">Leeftijd:</label>
+            <input type="text" name="age" id="profile_age"></input>
+            
+            <fieldset data-role="controlgroup">
+                <legend for="sex">Geslacht:</legend>
+                <input type="radio" name="radio-choice" id="radio-sex-male" value="man" />
+                <label for="radio-sex-male">Man</label>
+                <input type="radio" name="radio-choice" id="radio-sex-female" value="female" />
+                <label for="radio-sex-female">Vrouw</label>
+            </fieldset>
+
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <legend for="allergies">Allergie:</legend>
+                    <input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" />
+                    <label for="checkbox-1">Melk</label>
+                    <input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+                    <label for="checkbox-2">Noten</label>
+                    <input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom" />
+                    <label for="checkbox-3">Tarwe</label>
+                    <input type="checkbox" name="checkbox-4" id="checkbox-4" class="custom" />
+                    <label for="checkbox-4">Gluten</label>
+                    <input type="checkbox" name="checkbox-5" id="checkbox-5" class="custom" />
+                    <label for="checkbox-5">Sulfiet</label>
+                    <input type="checkbox" name="checkbox-6" id="checkbox-6" class="custom" />
+                    <label for="checkbox-6">Sesam</label>
+                    <input type="checkbox" name="checkbox-7" id="checkbox-7" class="custom" />
+                    <label for="checkbox-7">Selderij</label>
+                    <input type="checkbox" name="checkbox-8" id="checkbox-8" class="custom" />
+                    <label for="checkbox-8">Lactose</label>
+                    <input type="checkbox" name="checkbox-9" id="checkbox-9" class="custom" />
+                    <label for="checkbox-9">Ei</label>
+                    <input type="checkbox" name="checkbox-10" id="checkbox-10" class="custom" />
+                    <label for="checkbox-10">Pinda</label>
+                    <input type="checkbox" name="checkbox-11" id="checkbox-11" class="custom" />
+                    <label for="checkbox-11">Vis</label>
+                    <input type="checkbox" name="checkbox-12" id="checkbox-12" class="custom" />
+                    <label for="checkbox-12">Weekdieren</label>
+                    <input type="checkbox" name="checkbox-13" id="checkbox-13" class="custom" />
+                    <label for="checkbox-13">Soja</label>
+                    <input type="checkbox" name="checkbox-14" id="checkbox-14" class="custom" />
+                    <label for="checkbox-14">Mosterd</label>
+                    <input type="checkbox" name="checkbox-15" id="checkbox-15" class="custom" />
+                    <label for="checkbox-15">Lupine</label>
+                    <input type="checkbox" name="checkbox-16" id="checkbox-16" class="custom" />
+                    <label for="checkbox-16">Schaaldieren</label>
+                </fieldset>
+            </div>
+
+            <label for="weight">Gewicht:</label>
+            <input type="text" name="weight" id="profile_weight"></input>
+
+            <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role ="button" href="#landing">Annuleer</a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" href="#landing">Opslaan</a>
+            </div>
+            </fieldset> 
+        </form>
+    </div>
+</div><!-- /page -->
+
+<div data-role="page" id="profile_edit">
+
+    <div data-role="header" data-add-back-btn="true">
+        <a data-role="button" data-icon="back" data-rel="back" href="#">Terug</a>
+        <h2>Wijzig profiel</h2>
+    </div>
+
+    <div data-role="content">
+        
+        <form action="profile_create.php" method="post">
+            <label for="name">Naam:</label>
+            <input type="text" name="name" value="Henk de Vries" id="profile_name"></input>
+            
+            <label for="age">Leeftijd:</label>
+            <input type="text" name="age" value="29" id="profile_age"></input>
+            
+            <fieldset data-role="controlgroup">
+                <legend for="sex">Geslacht:</legend>
+                <input type="radio" name="radio-sex-edit" id="radio-edit-sex-male" value="man" checked="checked"/>
+                <label for="radio-edit-sex-male">Man</label>
+                <input type="radio" name="radio-sex-edit" id="radio-edit-sex-female" value="female" />
+                <label for="radio-edit-sex-female">Vrouw</label>
+            </fieldset>
+
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <legend for="allergies">Allergie:</legend>
+                    <input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" checked="checked" />
+                    <label for="checkbox-1">Melk</label>
+                    <input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" />
+                    <label for="checkbox-2">Noten</label>
+                    <input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom" checked="checked" />
+                    <label for="checkbox-3">Tarwe</label>
+                    <input type="checkbox" name="checkbox-4" id="checkbox-4" class="custom" checked="checked" />
+                    <label for="checkbox-4">Gluten</label>
+                    <input type="checkbox" name="checkbox-5" id="checkbox-5" class="custom" />
+                    <label for="checkbox-5">Sulfiet</label>
+                    <input type="checkbox" name="checkbox-6" id="checkbox-6" class="custom" />
+                    <label for="checkbox-6">Sesam</label>
+                    <input type="checkbox" name="checkbox-7" id="checkbox-7" class="custom" />
+                    <label for="checkbox-7">Selderij</label>
+                    <input type="checkbox" name="checkbox-8" id="checkbox-8" class="custom" />
+                    <label for="checkbox-8">Lactose</label>
+                    <input type="checkbox" name="checkbox-9" id="checkbox-9" class="custom" checked="checked" />
+                    <label for="checkbox-9">Ei</label>
+                    <input type="checkbox" name="checkbox-10" id="checkbox-10" class="custom" />
+                    <label for="checkbox-10">Pinda</label>
+                    <input type="checkbox" name="checkbox-11" id="checkbox-11" class="custom" />
+                    <label for="checkbox-11">Vis</label>
+                    <input type="checkbox" name="checkbox-12" id="checkbox-12" class="custom" />
+                    <label for="checkbox-12">Weekdieren</label>
+                    <input type="checkbox" name="checkbox-13" id="checkbox-13" class="custom" />
+                    <label for="checkbox-13">Soja</label>
+                    <input type="checkbox" name="checkbox-14" id="checkbox-14" class="custom" checked="checked" />
+                    <label for="checkbox-14">Mosterd</label>
+                    <input type="checkbox" name="checkbox-15" id="checkbox-15" class="custom" />
+                    <label for="checkbox-15">Lupine</label>
+                    <input type="checkbox" name="checkbox-16" id="checkbox-16" class="custom" />
+                    <label for="checkbox-16">Schaaldieren</label>
+                </fieldset>
+            </div>
+
+            <label for="profile_weight">Gewicht:</label>
+            <input type="text" name="weight" value="70" id="profile_weight"></input>
+
+            <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role ="button" href="#landing">Annuleer</a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" href="#landing">Opslaan</a>
+            </div>
+            </fieldset> 
+        </form>
+    </div>
+</div><!-- /page -->
+
+<div data-role="page" id="profile_delete">
+
+    <div data-role="header" data-add-back-btn="true">
+        <a data-role="button" data-icon="back" data-rel="back" href="#">Terug</a>
+        <h2>Verwijderen</h2>
+    </div><!-- /header -->
+
+    <div data-role="content">
+        <a href="#" id="name_1" class="btn-grp" data-icon="delete" data-role="button">Henk de Vries</a>
+        <a href="#" id="name_2" class="btn-grp" data-icon="delete" data-role="button">Ingrid de Vries</a>
+    </div><!-- /content -->
+    </div>
+</div><!-- /page -->
+
+<div data-role="page" id="scanner">
+    
+    <div data-role="header" data-add-back-btn="true">
+        <a data-role="button" data-icon="back" data-rel="back" href="#">Terug</a>
+        <h2>Scan uw product</h2>
+    </div><!-- /header -->
+    
+    <div data-role="content">
+        <img class="scanner" src="img/scanner1.jpg"></img>
+    </div><!-- /content -->
+
+</div><!-- /page -->
+
+    <!--<script type="text/javascript"> 
+    function FetchData() {
+            var url = "http://www.allergapp.nl/db.php?user=2&format=json";
+            $.get(url, function (data) {
+                    $(".result").html(data);
+                    alert("done");
+                    console.log(".result");
+                    });
+            }
+    </script>-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="barcodescanner.js"></script>
+    <script type="text/javascript" src="childbrowser.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+</html>

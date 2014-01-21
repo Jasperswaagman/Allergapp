@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.allergapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+    <name>Allergapp</name>
+    <description>
+        An app to help people with an allergy decide if they can eat food or not.
+    </description>
+    <author email="dev@allergapp.nl" href="http://allergapp.nl">
+        Allergapp Bas and Jasper
+    </author>
+
+    <gap:plugin name="com.phonegap.plugins.barcodescanner"/>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="orientation" value="default" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+</widget>
