@@ -28,7 +28,6 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.getElementById('scan').addEventListener('click', this.scan, false);
-        document.getElementById('encode').addEventListener('click', this.encode, false);
     },
 
     // deviceready Event Handler
@@ -80,4 +79,31 @@ var app = {
         } );
     },
 
+};
+
+var prefs = {
+    firstUse: function() {
+        // If app is used for the first time
+        if(typeof localStorage.firstUseFlag === 'undefined') {
+            console.log('app is running for the first time');
+            localStorage.firstUseFlag = 'false';
+            window.location.href = "#profile_create";
+        } else {
+            // Do nothing
+            console.log('app has ran before');
+        }
+    },
+};
+
+// Use this var to request data from the db through the db.php script
+var url = 'http://allergapp.nl/db.php?format=json&case=';
+
+var db = {
+    getAllergyList: function() {
+        $.get(url+'getAllergyList', function (data) {
+            $.each(data, function(k, v) {
+                $('<input type="checkbox" name="checkbox-'+v["allergy_id"]+'" id="checkbox-'+v["allergy_id"]+'" class="custom"/><label for="checkbox-'+v["allergy_id"]+'">'+v["allergy"]+'</label>').insertAfter('#createprofile_allergy_list');
+            });
+        });
+    }, 
 };
