@@ -82,15 +82,17 @@ var app = {
 };
 
 var prefs = {
-    firstUse: function() {
+    getPrefs: function() {
         // If app is used for the first time
-        if(typeof localStorage.firstUseFlag === 'undefined' && localStorage.registerComplete === 'undefined') {
+        if(typeof localStorage.firstUseFlag === 'undefined' && typeof localStorage.registerComplete === 'undefined') {
             console.log('app is running for the first time');
             localStorage.firstUseFlag = 'false';
             window.location.href = "#profile_create";
         } else {
         // Do nothing
-            console.log('app has ran before');
+            if(localStorage.getItem("registerComplete") === 'true') {
+                localStorage.getItem("userid");
+            }
         }
     },
 };
@@ -112,7 +114,7 @@ var db = {
     getAllergyList: function() {
         $.get(url+'case=getAllergyList', function (data) {
             $.each(data, function(k, v) {
-                $('#allergy_list').children('.ui-controlgroup-controls').append('<div class="ui-checkbox"><input type="checkbox" name="checkbox[]" id="checkbox-'+v["allergy_id"]+'" class="custom"/><label for="checkbox-'+v["allergy_id"]+'">'+v["allergy"]+'</label></div>');
+                $('#allergy_list').children('.ui-controlgroup-controls').append('<div class="ui-checkbox"><input type="checkbox" name="checkbox[]" id="checkbox-'+v["allergy_id"]+'" value="'+v['allergy_id']+'" class="custom"/><label for="checkbox-'+v["allergy_id"]+'">'+v["allergy"]+'</label></div>');
             });
         $('#allergy_list').children('.ui-controlgroup-controls').trigger('create');
         });
@@ -122,16 +124,30 @@ var db = {
         $.post(url, $('#profileCreateForm').serialize(),
             function (data) {
                 if(data) {
-                    // If success we need to store the userid in localstorage.
+                    // Insert user in db
                     // ffing ugly vars
                     var name = $('#profile_name_create').val();
                     var email = $('#profile_email_create').val();
-                    $.get(url+'case=getUserid', { profile_name: name, profile_email: email } ,
+                    $.get(url+'case=getUserid', { profile_name: name, profile_email: email },
                         function (data) {
-                            localStorage.userid = data.user_id;
+                            // If success we need to store the userid in localstorage.
+                            localStorage.userid = data[0].user_id;
+                            db.updateAllergies(data[0].user_id);
                     });
+                    localStorage.registerComplete = 'true';
                     $.mobile.changePage('#succesDialog');
                 } 
         });
+    },
+
+    updateAllergies: function(id) {
+        var ids = $("#profileCreateForm input:checkbox:checked").map( function() {
+            return $(this).val();
+        }).get();
+        $.post(url+'case=insertAllergies', {'ids': ids, 'user_id': id});
+    },
+
+    getAllergiesOfUser: function() {
+        // Get all ids of the allergies the user has, to compare with scan result
     },
 };
