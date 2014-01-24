@@ -84,26 +84,54 @@ var app = {
 var prefs = {
     firstUse: function() {
         // If app is used for the first time
-        if(typeof localStorage.firstUseFlag === 'undefined') {
+        if(typeof localStorage.firstUseFlag === 'undefined' && localStorage.registerComplete === 'undefined') {
             console.log('app is running for the first time');
             localStorage.firstUseFlag = 'false';
             window.location.href = "#profile_create";
         } else {
-            // Do nothing
+        // Do nothing
             console.log('app has ran before');
         }
     },
 };
 
+// Prevent default submit on form
+$('form').submit(function(e) {
+    return false;
+});
+
+// Actions by user
+$('#submitSaveProfile').click(function() {
+    db.profileCreate();
+});
+
 // Use this var to request data from the db through the db.php script
-var url = 'http://allergapp.nl/db.php?format=json&case=';
+var url = 'http://allergapp.nl/db.php?';
 
 var db = {
     getAllergyList: function() {
-        $.get(url+'getAllergyList', function (data) {
+        $.get(url+'case=getAllergyList', function (data) {
             $.each(data, function(k, v) {
-                $('<input type="checkbox" name="checkbox-'+v["allergy_id"]+'" id="checkbox-'+v["allergy_id"]+'" class="custom"/><label for="checkbox-'+v["allergy_id"]+'">'+v["allergy"]+'</label>').insertAfter('#createprofile_allergy_list');
+                $('#allergy_list').children('.ui-controlgroup-controls').append('<div class="ui-checkbox"><input type="checkbox" name="checkbox[]" id="checkbox-'+v["allergy_id"]+'" class="custom"/><label for="checkbox-'+v["allergy_id"]+'">'+v["allergy"]+'</label></div>');
             });
+        $('#allergy_list').children('.ui-controlgroup-controls').trigger('create');
         });
     }, 
+
+    profileCreate: function() {
+        $.post(url, $('#profileCreateForm').serialize(),
+            function (data) {
+                if(data) {
+                    // If success we need to store the userid in localstorage.
+                    // ffing ugly vars
+                    var name = $('#profile_name_create').val();
+                    var email = $('#profile_email_create').val();
+                    $.get(url+'case=getUserid', { profile_name: name, profile_email: email } ,
+                        function (data) {
+                            localStorage.userid = data.user_id;
+                    });
+                    $.mobile.changePage('#succesDialog');
+                } 
+        });
+    },
 };

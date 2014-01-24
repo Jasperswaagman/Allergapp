@@ -46,6 +46,15 @@
     </div>
 </div><!-- /page -->
 
+<div data-role="dialog" id="succesDialog" data-close-btn="none">
+    <div data-role="header">
+        <h1>Opgeslagen</h1>
+    </div>
+    <div data-role="content" class="ok-button">
+        <a href="#landing" data-role="button" data-inline="true">Ok</a>
+    </div>    
+</div><!-- /page -->
+
 <div data-role="page" id="profile_create">
 
     <div data-role="header" data-add-back-btn="true">
@@ -54,12 +63,12 @@
     </div>
 
     <div data-role="content">
-        <form action="http://allergapp.nl/db.php" method="post">
+        <form id="profileCreateForm"> 
             <label for="name">Naam:</label>
-            <input type="text" name="name" id="profile_name"></input>
+            <input type="text" name="profile_name" id="profile_name_create"></input>
             
             <label for="age">Leeftijd:</label>
-            <input type="text" name="age" id="profile_age"></input>
+            <input type="text" name="profile_age" id="profile_age"></input>
             
             <fieldset data-role="controlgroup">
                 <legend for="sex">Geslacht:</legend>
@@ -70,22 +79,16 @@
             </fieldset>
 
             <div data-role="fieldcontain">
-                <fieldset data-role="controlgroup">
-                    <legend for="allergies" id="createprofile_allergy_list">Allergie:</legend>
+                <fieldset data-role="controlgroup" id="allergy_list">
+                    <legend for="allergies">Allergie:</legend>
                 </fieldset>
             </div>
 
             <label for="email">Email:</label>
-            <input type="text" name="email" id="profile_email"></input>
+            <input type="text" name="profile_email" id="profile_email_create"></input>
             <input type="hidden" name="case" value="profileCreate"></input>
 
-            <fieldset class="ui-grid-a">
-            <div class="ui-block-a">
-                <a data-role ="button" href="#landing">Annuleer</a>
-            </div>
-            <div class="ui-block-b">
-                <input type="submit" data-role="button">Opslaan</a>
-            </div>
+            <button id="submitSaveProfile" data-role="button" data-theme="b">Opslaan</button>
             </fieldset> 
         </form>
     </div>
