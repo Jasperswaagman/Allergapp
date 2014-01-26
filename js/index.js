@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+// global vars
+var url = 'http://allergapp.nl/db.php?';
+var allergyList = JSON.parse(localStorage.getItem('userAllergies'));
+var isAllergic = 0;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -49,51 +54,19 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-
-    scan: function() {
-        console.log('scanning');
-        
-        var scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
-
-        scanner.scan( function (result) { 
-
-            alert("We got a barcode\n" + 
-            "Result: " + result.text + "\n" + 
-            "Format: " + result.format + "\n" + 
-            "Cancelled: " + result.cancelled);  
-
-           console.log("Scanner result: \n" +
-                "text: " + result.text + "\n" +
-                "format: " + result.format + "\n" +
-                "cancelled: " + result.cancelled + "\n");
-            document.getElementById("info").innerHTML = result.text;
-            console.log(result);
-            /*
-            if (args.format == "QR_CODE") {
-                window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
-            }
-            */
-
-        }, function (error) { 
-            console.log("Scanning failed: ", error); 
-        } );
-    },
-
 };
 
 var prefs = {
     getPrefs: function() {
         // If app is used for the first time
-        if(typeof localStorage.firstUseFlag === 'undefined' && typeof localStorage.registerComplete === 'undefined') {
-            console.log('app is running for the first time');
-            localStorage.firstUseFlag = 'false';
+        if(typeof localStorage.registerComplete === 'undefined') {
+            console.log('user is not registered yet');
             window.location.href = "#profile_create";
         } else {
         // Do nothing
-            if(localStorage.getItem("registerComplete") === 'true') {
-                localStorage.getItem("userid");
-            }
         }
+    db.getAllergyList();
+    db.getAllergiesOfUser();
     },
 };
 
@@ -107,8 +80,38 @@ $('#submitSaveProfile').click(function() {
     db.profileCreate();
 });
 
-// Use this var to request data from the db through the db.php script
-var url = 'http://allergapp.nl/db.php?';
+$('#scan').click(function() {
+    db.getAllergiesOfUser();
+    var scanner = cordova.require("com.phonegap.plugins.barcodescanner.BarcodeScanner");
+    scanner.scan( function (result) { 
+        // Get list of allergies the product has
+        $.get(url+'case=getProductAllergies', {'ean_code': result.text}, function(data) {
+            // On success compare the allergy_ids with the user his allergies
+            $.each(data, function(index, value) {
+                $.each(value, function(i, v) {
+                    // If id is present in the allergyList object, set isAllergic to 1.
+                    $.each(JSON.parse(localStorage.getItem('userAllergies')), function (obj, val) {
+                        console.log('val='+val['allergy_id']);
+                        if(v ==  val['allergy_id']) {
+                            isAllergic = 1;
+                        }
+                    });
+                });
+            });
+            
+            if(isAllergic == 1) {
+                alert('Je mag dit niet hebben :(');
+            } else {
+                alert('Je mag dit wel hebben :)');
+            } 
+            isAllergic = 0;
+        }).fail(function() {
+            alert('Product komt niet voor in de database');
+        });
+    }, function (error) { 
+        console.log("Scanning failed: ", error); 
+    }); 
+});
 
 var db = {
     getAllergyList: function() {
@@ -135,7 +138,7 @@ var db = {
                             db.updateAllergies(data[0].user_id);
                     });
                     localStorage.registerComplete = 'true';
-                    $.mobile.changePage('#succesDialog');
+                    $.mobile.changePage('#succesDialog', {role: 'dialog'});
                 } 
         });
     },
@@ -148,6 +151,9 @@ var db = {
     },
 
     getAllergiesOfUser: function() {
-        // Get all ids of the allergies the user has, to compare with scan result
+        // Get all ids of the allergies the user has and save them in localStorage.
+        $.get(url+'case=getUserAllergies', {'user_id': localStorage.userid}, function(data) {
+            localStorage.userAllergies = JSON.stringify(data);
+        });
     },
 };
